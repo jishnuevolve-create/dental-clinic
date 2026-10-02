@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact · Aurea Dental Studio</title>
+  <meta name="description" content="Call, WhatsApp or message Aurea Dental Studio. Opening hours, directions, parking and map.">
+  <meta name="theme-color" content="#FAFBFC">
+  <link rel="canonical" href="https://www.aureadental.com/contact.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Aurea Dental Studio">
+  <meta property="og:title" content="Contact · Aurea Dental Studio">
+  <meta property="og:description" content="Call, WhatsApp or message Aurea Dental Studio. Opening hours, directions, parking and map.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&h=630&q=70">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="https://unpkg.com/lucide@1.50.0/dist/umd/lucide.min.js"></script>
+  <script defer src="assets/js/data.js"></script>
+  <script defer src="assets/js/site.js"></script>
+  <script defer src="assets/js/components.js"></script>
+  <script defer src="assets/js/pages.js"></script>
+</head>
+<body data-page="contact">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header id="site-header"></header>
+  <main id="main">
+    <section class="page-hero" style="padding-bottom:clamp(32px,4vw,48px)">
+      <div class="orb orb--blue" aria-hidden="true"></div><div class="orb orb--mint" aria-hidden="true"></div>
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i data-lucide="chevron-right" aria-hidden="true"></i><span aria-current="page">Contact</span></nav>
+        <span class="eyebrow">Contact</span>
+        <h1 class="h1" style="font-size:clamp(2.25rem,4.6vw,3.5rem);max-width:760px">We're here <em class="serif">to help.</em></h1>
+        <p class="lead" style="max-width:560px">Questions about a treatment, costs or insurance? Send us a message, call or WhatsApp. We usually reply within 10 minutes during clinic hours.</p>
+      </div>
+    </section>
+
+    <section class="section section--tight" style="padding-top:8px">
+      <div class="container contact-grid">
+        <div class="card form-card">
+          <h2 class="h3" style="margin-bottom:6px">Send us a message</h2>
+          <p style="font-size:14.5px;margin-bottom:24px">Want to book? <a class="link" href="book.html" style="font-size:14.5px">Use online booking <i data-lucide="arrow-right" aria-hidden="true"></i></a></p>
+          <form id="contact-form" class="form-grid" novalidate>
+            <div class="field">
+              <label class="field__label" for="c-name">Full name</label>
+              <input class="input" id="c-name" name="name" autocomplete="name" placeholder="Your name" aria-describedby="ce-name" required>
+              <span class="field__error" id="ce-name"><i data-lucide="circle-alert" aria-hidden="true"></i><span></span></span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="c-phone">Phone</label>
+              <input class="input" id="c-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 98765 43210" aria-describedby="ce-phone" required>
+              <span class="field__error" id="ce-phone"><i data-lucide="circle-alert" aria-hidden="true"></i><span></span></span>
+            </div>
+            <div class="field full">
+              <label class="field__label" for="c-email">Email <span class="opt">(optional)</span></label>
+              <input class="input" id="c-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" aria-describedby="ce-email">
+              <span class="field__error" id="ce-email"><i data-lucide="circle-alert" aria-hidden="true"></i><span></span></span>
+            </div>
+            <div class="field full">
+              <label class="field__label" for="c-topic">Topic</label>
+              <select class="select" id="c-topic" name="topic">
+                <option>General question</option><option>Treatment &amp; pricing</option><option>Insurance &amp; EMI</option><option>Existing appointment</option><option>Dental emergency</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label class="field__label" for="c-message">Message</label>
+              <textarea class="textarea" id="c-message" name="message" placeholder="How can we help?" aria-describedby="ce-message" required></textarea>
+              <span class="field__error" id="ce-message"><i data-lucide="circle-alert" aria-hidden="true"></i><span></span></span>
+            </div>
+            <div class="full row-gap" style="justify-content:space-between">
+              <span style="font-size:13px;display:inline-flex;gap:6px;align-items:center"><i data-lucide="lock" aria-hidden="true"></i> Your details stay private.</span>
+              <button class="btn btn--primary" type="submit">Send message <i data-lucide="send" aria-hidden="true"></i></button>
+            </div>
+          </form>
+          <div id="contact-success" class="notice" hidden tabindex="-1" role="status">
+            <i data-lucide="circle-check" aria-hidden="true"></i>
+            <span><b>Thanks, message received.</b> Our care team will get back to you shortly. For anything urgent, please call <a href="tel:+919876543210" style="text-decoration:underline">+91 98765 43210</a>.</span>
+          </div>
+        </div>
+
+        <div style="display:grid;gap:16px">
+          <div class="card" style="padding:10px">
+            <div class="contact-list">
+              <a class="contact-row" href="tel:+919876543210"><span class="icon-tile icon-tile--sm"><i data-lucide="phone" aria-hidden="true"></i></span><span><strong>+91 98765 43210</strong><small>Call us · Mon–Sat</small></span></a>
+              <a class="contact-row" href="https://wa.me/919876543210" target="_blank" rel="noopener"><span class="icon-tile icon-tile--sm"><i data-lucide="message-circle" aria-hidden="true"></i></span><span><strong>WhatsApp</strong><small>Fastest replies, 7 days a week</small></span></a>
+              <a class="contact-row" href="mailto:hello@aureadental.com"><span class="icon-tile icon-tile--sm"><i data-lucide="mail" aria-hidden="true"></i></span><span><strong>hello@aureadental.com</strong><small>We reply within one working day</small></span></a>
+              <a class="contact-row" href="https://www.google.com/maps/dir/?api=1&destination=Level%202%2C%2048%20Park%20Avenue%2C%20Indiranagar%2C%20Bengaluru%20560038" target="_blank" rel="noopener"><span class="icon-tile icon-tile--sm"><i data-lucide="map-pin" aria-hidden="true"></i></span><span><strong>Level 2, 48 Park Avenue</strong><small>Indiranagar, Bengaluru 560038</small></span></a>
+            </div>
+          </div>
+          <div class="card info-card">
+            <h2 class="h3">Opening hours</h2>
+            <ul class="hours" style="margin-top:0;border:0;padding-top:0">
+              <li><span>Mon – Fri</span><span>9:00 AM – 8:00 PM</span></li>
+              <li><span>Saturday</span><span>9:00 AM – 5:00 PM</span></li>
+              <li><span>Sunday</span><span>Emergencies only</span></li>
+            </ul>
+            <div class="notice mt-16" style="font-size:13.5px"><i data-lucide="siren" aria-hidden="true"></i><span>In pain? Call or WhatsApp us. We keep same-day emergency slots open every day.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight" style="padding-top:0">
+      <div class="container two-col" style="grid-template-columns:1.4fr 1fr">
+        <div class="card map-card"><iframe title="Map to Aurea Dental Studio" src="https://maps.google.com/maps?q=Indiranagar%2C%20Bengaluru&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        <div class="card info-card">
+          <h2 class="h3">Getting here</h2>
+          <ul class="list-check mt-16">
+            <li><i data-lucide="square-parking" aria-hidden="true"></i><span><b style="color:var(--ink)">Free parking</b> in the building basement. Mention Aurea at the gate.</span></li>
+            <li><i data-lucide="train-front" aria-hidden="true"></i><span><b style="color:var(--ink)">Metro:</b> Indiranagar station, 6-minute walk.</span></li>
+            <li><i data-lucide="accessibility" aria-hidden="true"></i><span><b style="color:var(--ink)">Step-free access</b> with lift to Level 2.</span></li>
+            <li><i data-lucide="coffee" aria-hidden="true"></i><span>Arrive early? Enjoy tea or coffee in our lounge.</span></li>
+          </ul>
+          <a class="btn btn--secondary btn--block mt-24" href="https://www.google.com/maps/dir/?api=1&destination=Level%202%2C%2048%20Park%20Avenue%2C%20Indiranagar%2C%20Bengaluru%20560038" target="_blank" rel="noopener"><i data-lucide="navigation" aria-hidden="true"></i> Get directions</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

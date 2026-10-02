@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>My Appointments · Aurea Dental Studio</title>
+  <meta name="description" content="View, reschedule or cancel your Aurea Dental Studio appointments.">
+  <meta name="theme-color" content="#FAFBFC">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://www.aureadental.com/portal.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Aurea Dental Studio">
+  <meta property="og:title" content="My Appointments · Aurea Dental Studio">
+  <meta property="og:description" content="View, reschedule or cancel your Aurea Dental Studio appointments.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&h=630&q=70">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="https://unpkg.com/lucide@1.50.0/dist/umd/lucide.min.js"></script>
+  <script defer src="assets/js/data.js"></script>
+  <script defer src="assets/js/site.js"></script>
+  <script defer src="assets/js/components.js"></script>
+  <script defer src="assets/js/pages.js"></script>
+</head>
+<body data-page="portal">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header id="site-header"></header>
+  <main id="main">
+    <section class="page-hero" style="padding-bottom:clamp(32px,4vw,48px)">
+      <div class="orb orb--blue" aria-hidden="true"></div><div class="orb orb--mint" aria-hidden="true"></div>
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i data-lucide="chevron-right" aria-hidden="true"></i><span aria-current="page">My appointments</span></nav>
+        <span class="eyebrow">Patient portal</span>
+        <h1 class="h1" style="font-size:clamp(2.25rem,4.6vw,3.25rem)">Your <em class="serif">appointments</em></h1>
+        <p class="lead" style="max-width:560px">View, reschedule or cancel your visits. Cancellation is free up to 24 hours before.</p>
+      </div>
+    </section>
+
+    <section class="section section--tight" style="padding-top:8px">
+      <div class="container" style="max-width:880px">
+        <div class="row-gap" style="justify-content:space-between">
+          <div class="tabs" role="tablist" aria-label="Appointments">
+            <button type="button" role="tab" data-tab="upcoming" aria-selected="true" aria-controls="portal-list">Upcoming</button>
+            <button type="button" role="tab" data-tab="past" aria-selected="false" aria-controls="portal-list">Past &amp; cancelled</button>
+          </div>
+          <a class="btn btn--primary btn--sm" href="book.html" style="margin-bottom:20px"><i data-lucide="plus" aria-hidden="true"></i> New booking</a>
+        </div>
+        <div id="portal-status" class="notice" role="status" hidden style="margin-bottom:16px"></div>
+        <div id="portal-list" role="tabpanel"></div>
+        <p class="center mt-32" style="font-size:13px"><i data-lucide="info" aria-hidden="true" style="display:inline-block;vertical-align:-3px"></i> Demo portal: bookings are stored on this device. Connect to your practice-management system to sync across devices.</p>
+      </div>
+    </section>
+
+    <dialog class="dialog" id="cancel-dialog" aria-labelledby="cancel-title">
+      <div class="dialog__body">
+        <span class="icon-tile" style="color:var(--danger);background:#fef2f2;border-color:#fee2e2"><i data-lucide="calendar-x" aria-hidden="true"></i></span>
+        <h2 class="h3" id="cancel-title">Cancel this appointment?</h2>
+        <p id="cancel-text"></p>
+        <p style="font-size:14px">Prefer a different time? You can <b style="color:var(--ink)">reschedule</b> instead.</p>
+        <div class="dialog__actions">
+          <button type="button" class="btn btn--secondary" id="cancel-keep">Keep it</button>
+          <button type="button" class="btn btn--primary" id="cancel-confirm" style="background:var(--danger);box-shadow:none">Yes, cancel</button>
+        </div>
+      </div>
+    </dialog>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

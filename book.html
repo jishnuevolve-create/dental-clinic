@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Book an Appointment · Aurea Dental Studio</title>
+  <meta name="description" content="Book your dental appointment online in under 60 seconds. Choose your treatment, doctor and time. Free cancellation up to 24 hours before.">
+  <meta name="theme-color" content="#F3F8FF">
+  <link rel="canonical" href="https://www.aureadental.com/book.html">
+  <meta property="og:title" content="Book an Appointment · Aurea Dental Studio">
+  <meta property="og:description" content="Pick a time that suits you. Takes less than 60 seconds.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="https://unpkg.com/lucide@1.50.0/dist/umd/lucide.min.js"></script>
+  <script defer src="assets/js/data.js"></script>
+  <script defer src="assets/js/site.js"></script>
+  <script defer src="assets/js/booking.js"></script>
+</head>
+<body data-page="book" class="book-page">
+  <a class="skip-link" href="#book-panel">Skip to booking form</a>
+  <header id="site-header"></header>
+
+  <main id="main" class="container book-shell">
+    <div class="book-head" id="book-head">
+      <div>
+        <h1>Book your appointment</h1>
+        <p>
+          <span><i data-lucide="timer" aria-hidden="true"></i> Takes less than 60 seconds</span>
+          <span><i data-lucide="circle-check" aria-hidden="true"></i> No account needed</span>
+          <span><i data-lucide="circle-check" aria-hidden="true"></i> Free cancellation up to 24h before</span>
+        </p>
+      </div>
+    </div>
+
+    <p class="stepper__mobile" id="stepper-mobile" aria-hidden="true"></p>
+    <nav class="stepper" id="stepper" aria-label="Booking progress"></nav>
+
+    <div class="book-layout">
+      <section class="card book-panel" id="book-panel" tabindex="-1" aria-labelledby="step-title"></section>
+      <p class="sr-only" id="sr-status" aria-live="polite"></p>
+      <aside class="summary-col" aria-label="Booking summary">
+        <div class="card summary" id="summary"></div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="mobile-bar" id="mobile-bar"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
