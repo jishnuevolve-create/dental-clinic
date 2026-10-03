@@ -1,4 +1,4 @@
-# Aurea Dental Studio: website + online booking
+# MA Dental Care (Mukkam & Mavoor): website + online booking
 
 A static, dependency-free site: plain HTML, CSS and vanilla JS. Open `index.html` directly or serve the folder with any static host (Netlify, Vercel, S3, nginx).
 
@@ -27,8 +27,14 @@ Replace the three methods on `BookingAPI` in `site.js` with real calls (keep the
 
 The portal currently reads bookings from `localStorage` (`Store`). Point it to your patient API for cross-device access. The contact form has a `TODO` where the POST should go.
 
-## Placeholders to replace before launch
-- Clinic name "Aurea", phone, address, map query, email, prices, doctor names/bios, accreditation labels
-- Unsplash photos: swap for real clinic, team and before/after photography (the before/after "before" image is a CSS-filtered version of the after image, for demo only)
-- Domain in canonical / Open Graph / JSON-LD (`aureadental.com`)
-- Social links in the footer (`#`)
+## Client content
+Clinic name, logo, phones, emails, addresses, map, departments, doctors (names, roles, photos), testimonials and the 3,400+ clients stat come from www.madentalcare.in. Client images live in `assets/img/` and `assets/img/doctors/`.
+
+## Still to confirm with the client (search the code for `TODO: confirm with client`)
+- Opening hours (and booking time slots in `SLOT_GROUPS`, `site.js`)
+- WhatsApp number (currently the Mukkam line)
+- Prices, visit durations, cancellation policy
+- Doctor qualifications, experience, languages, bios
+- Google rating / review link, social media links
+- Real clinic and before/after photos (Unsplash stand-ins remain in the hero-adjacent sections, technology, gallery and before/after)
+- Equipment/technology the clinic actually uses; FAQ policies

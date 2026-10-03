@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Aurea Dental Studio — Design system v2
+   MA Dental Care — Design system v2
    1. Tokens  2. Base  3. Layout  4. Components  5. Sections
    6. Sub-pages  7. Booking  8. Motion & utilities  9. Responsive
    ========================================================================== */
@@ -342,6 +342,8 @@ h1 .serif, h2 .serif { background: var(--grad-text); -webkit-background-clip: te
 .logo__mark svg { width: 36px; height: 36px; filter: drop-shadow(0 6px 12px rgba(59, 124, 246, 0.3)); transition: transform 500ms var(--ease-spring); }
 .logo:hover .logo__mark svg { transform: rotate(-8deg) scale(1.05); }
 .logo__text { display: flex; flex-direction: column; font-family: var(--font-head); font-weight: 700; font-size: 18.5px; letter-spacing: -0.035em; color: var(--ink); line-height: 1; }
+.logo__img { display: block; height: 36px; width: auto; }
+@media (max-width: 600px) { .doctor-card__with { display: none; } }
 .logo__sub { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
 .nav__list { display: flex; gap: 2px; }
 .nav__link { position: relative; display: block; padding: 8px 14px; font-size: 14.5px; font-weight: 500; color: var(--ink-2); border-radius: var(--pill); transition: color var(--t-fast), background-color var(--t-fast); }

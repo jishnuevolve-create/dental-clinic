@@ -9,12 +9,12 @@
   "use strict";
   const { CLINIC, SERVICES, CONSULT, DOCTORS } = window.SITE;
   const {
-    $, $$, esc, money, icon, BRAND, params, findService, findDoctor, refreshIcons,
+    $, $$, esc, money, fromPrice, icon, BRAND, params, findService, findDoctor, refreshIcons,
     BookingAPI, Store, ymd, parseYmd, fmtTime, fmtDate, relDay, reducedMotion,
   } = window.App;
 
   const STEPS = ["Service", "Doctor", "Date & time", "Your details", "Confirm"];
-  const DRAFT_KEY = "aurea.draft";
+  const DRAFT_KEY = "madental.draft";
   const COUNTRY_CODES = [["+91", "IN +91"], ["+971", "AE +971"], ["+1", "US +1"], ["+44", "UK +44"], ["+65", "SG +65"], ["+61", "AU +61"]];
   const GROUP_ICONS = { Morning: "sunrise", Afternoon: "sun", Evening: "sunset" };
 
@@ -204,7 +204,7 @@
           <span class="option__desc">${esc(s.short)}</span>
           <span class="option__meta">
             <span>${icon("clock")} ${s.duration} min</span>
-            <span>From <b>${money(s.price)}</b>${s.priceLabel ? ` ${esc(s.priceLabel.toLowerCase())}` : ""}</span>
+            <span>${fromPrice(s.price)}${s.priceLabel ? ` ${esc(s.priceLabel.toLowerCase())}` : ""}</span>
           </span>
         </span>
         <span class="option__check">${icon("check")}</span>
@@ -220,7 +220,8 @@
   function viewDoctor() {
     const svc = findService(state.service);
     const docOpt = (d) => {
-      const rec = svc && d.services.includes(svc.id) && svc.id !== "checkup";
+      // Only meaningful when a doctor offers a subset of treatments.
+      const rec = svc && d.services.includes(svc.id) && d.services.length < SERVICES.length;
       return `
       <label class="option">
         <input type="radio" name="doctor" value="${d.id}" ${state.doctor === d.id ? "checked" : ""}>
@@ -228,20 +229,20 @@
         <span class="option__body">
           <span class="option__title">${esc(d.name)}</span>
           <span class="option__desc">${esc(d.role)}</span>
-          <span class="option__meta"><span>${icon("award")} ${d.years} yrs</span><span>${icon("languages")} ${d.languages.slice(0, 2).join(", ")}</span></span>
+          <span class="option__meta">${d.years ? `<span>${icon("award")} ${d.years} yrs</span>` : ""}${d.languages.length ? `<span>${icon("languages")} ${d.languages.slice(0, 2).join(", ")}</span>` : ""}</span>
           ${rec ? `<span class="badge badge--mint">${icon("sparkles")} Recommended for ${esc(svc.name.split(" /")[0])}</span>` : ""}
         </span>
         <span class="option__check">${icon("check")}</span>
       </label>`;
     };
-    return `${head("Choose your dentist", "Pick a specialist, or let us match you with the first available dentist.")}
+    return `${head("Choose your dentist", "Pick your dentist, or let us match you with the first available dentist.")}
       <div class="options" role="radiogroup" aria-labelledby="step-title">
         <label class="option option--wide">
           <input type="radio" name="doctor" value="any" ${state.doctor === "any" ? "checked" : ""}>
           <span class="option__photo option__photo--any">${icon("users")}</span>
           <span class="option__body">
             <span class="option__title">Any available doctor</span>
-            <span class="option__desc">Fastest option. We'll match you with the right specialist.</span>
+            <span class="option__desc">Fastest option. We'll match you with the right dentist.</span>
             <span class="badge badge--blue">${icon("zap")} Most flexible times</span>
           </span>
           <span class="option__check">${icon("check")}</span>
@@ -304,7 +305,7 @@
         ${["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((d) => `<span class="cal__dow" aria-hidden="true">${d}</span>`).join("")}
         ${cells}
       </div>
-      <div class="cal__legend"><span><i></i> Available</span><span><i class="off"></i> Unavailable · Sundays closed</span></div>`;
+      <div class="cal__legend"><span><i></i> Available</span><span><i class="off"></i> Unavailable</span></div>`;
   }
 
   const slotsEmpty = (msg) => `<div class="slots__empty">${icon("calendar-clock")}<p>${msg}</p></div>`;
@@ -350,7 +351,7 @@
         </div>
         <div class="field full" data-field="name">
           <label class="field__label" for="f-name">Full name</label>
-          <input class="input" id="f-name" name="name" autocomplete="name" value="${esc(p.name)}" placeholder="e.g. Priya Sharma" aria-describedby="e-name" required>
+          <input class="input" id="f-name" name="name" autocomplete="name" value="${esc(p.name)}" placeholder="Your full name" aria-describedby="e-name" required>
           ${err("name")}
         </div>
         <div class="field" data-field="phone">
@@ -359,7 +360,7 @@
             <select class="select" id="f-cc" name="cc" aria-label="Country code" autocomplete="tel-country-code">
               ${COUNTRY_CODES.map(([v, l]) => `<option value="${v}" ${p.cc === v ? "selected" : ""}>${l}</option>`).join("")}
             </select>
-            <input class="input" id="f-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" value="${esc(p.phone)}" placeholder="98765 43210" aria-describedby="e-phone" required>
+            <input class="input" id="f-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" value="${esc(p.phone)}" placeholder="10-digit mobile number" aria-describedby="e-phone" required>
           </div>
           ${err("phone")}
         </div>
@@ -404,12 +405,12 @@
     const edit = (step) => (editable ? `<button type="button" class="edit" data-goto="${step}">Edit</button>` : "");
     return `
       <div class="review-list">
-        <div class="review-row"><span class="review-row__k">Treatment</span><span class="review-row__v">${esc(s.name)}<small>${s.duration} min · from ${money(s.price)}</small></span>${edit(0)}</div>
+        <div class="review-row"><span class="review-row__k">Treatment</span><span class="review-row__v">${esc(s.name)}<small>${s.duration} min · ${fromPrice(s.price, false).toLowerCase()}</small></span>${edit(0)}</div>
         <div class="review-row"><span class="review-row__k">Dentist</span><span class="review-row__v">${d ? esc(d.name) : "Any available doctor"}<small>${d ? esc(d.role) : "Matched to your treatment"}</small></span>${edit(1)}</div>
         <div class="review-row"><span class="review-row__k">Date &amp; time</span><span class="review-row__v">${fmtDate(b.date, { weekday: "long", day: "numeric", month: "long", year: "numeric" })}<small>${fmtTime(b.time)} · please arrive 10 min early</small></span>${edit(2)}</div>
         <div class="review-row"><span class="review-row__k">Patient</span><span class="review-row__v">${esc(p.name)}<small>${esc(p.cc)} ${esc(p.phone)} · ${esc(p.email)} · ${p.type === "new" ? "New patient" : "Returning patient"}</small></span>${edit(3)}</div>
         <div class="review-row"><span class="review-row__k">Clinic</span><span class="review-row__v">${esc(CLINIC.fullName)}<small>${esc(CLINIC.address.full)}</small></span></div>
-        <div class="review-total"><span>Estimated cost</span><b>from ${money(s.price)}</b></div>
+        <div class="review-total"><span>Estimated cost</span><b>${s.price == null ? "On consultation" : `from ${money(s.price)}`}</b></div>
       </div>`;
   }
   function viewReview() {
@@ -583,7 +584,7 @@
         ${row("calendar", "Date & time", state.date && state.time ? `${fmtDate(state.date)} · ${fmtTime(state.time)}` : state.date ? `${fmtDate(state.date)} · pick a time` : "", 2)}
         ${row("map-pin", "Clinic", esc(CLINIC.address.line2), 9)}
       </div>
-      <div class="summary__total"><span>Estimated from</span><b>${s ? money(s.price) : "—"}</b></div>
+      <div class="summary__total"><span>${s && s.price == null ? "Estimate" : "Estimated from"}</span><b>${s ? money(s.price) : "—"}</b></div>
       <div class="summary__assure">
         <span>${icon("shield-check")} Free cancellation up to 24h before</span>
         <span>${icon("wallet")} Pay at the clinic, no card needed</span>
@@ -599,7 +600,7 @@
     const s = findService(state.service);
     const info = state.step >= 2 && state.date && state.time
       ? `<b>${fmtDate(state.date)} · ${fmtTime(state.time)}</b>${s ? esc(s.name) : ""}`
-      : s ? `<b>${esc(s.name)}</b>From ${money(s.price)}` : `<b>Step ${state.step + 1} of 5</b>${STEPS[state.step]}`;
+      : s ? `<b>${esc(s.name)}</b>${fromPrice(s.price, false)}` : `<b>Step ${state.step + 1} of 5</b>${STEPS[state.step]}`;
     const isLast = state.step === 4;
     const disabled = state.step < 3 && !stepComplete(state.step);
     bar.innerHTML = `
@@ -642,8 +643,8 @@
     const details = `Booking ref: ${b.ref}\nDentist: ${d ? d.name : "Assigned on arrival"}\nPlease arrive 10 minutes early.\nManage booking: ${new URL(`portal.html?ref=${b.ref}`, location.href).href}`;
     const google = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${stamp(start)}/${stamp(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(CLINIC.address.full)}`;
     const ics = [
-      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Aurea Dental Studio//Booking//EN", "BEGIN:VEVENT",
-      `UID:${b.ref}@aureadental.com`, `DTSTAMP:${stamp(new Date())}`, `DTSTART:${stamp(start)}`, `DTEND:${stamp(end)}`,
+      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//MA Dental Care//Booking//EN", "BEGIN:VEVENT",
+      `UID:${b.ref}@madentalcare.in`, `DTSTAMP:${stamp(new Date())}`, `DTSTART:${stamp(start)}`, `DTEND:${stamp(end)}`,
       `SUMMARY:${title}`, `DESCRIPTION:${details.replace(/\n/g, "\\n")}`, `LOCATION:${CLINIC.address.full.replace(/,/g, "\\,")}`,
       "BEGIN:VALARM", "TRIGGER:-PT2H", "ACTION:DISPLAY", "DESCRIPTION:Dental appointment", "END:VALARM",
       "END:VEVENT", "END:VCALENDAR",
