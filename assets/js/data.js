@@ -2,7 +2,6 @@
    Site content & configuration
    Single source of truth for clinic details, services, doctors, pricing,
    reviews and FAQs. Swap these values to rebrand the site.
-   Content source: www.madentalcare.in (MA Dental Care, Mukkam & Mavoor).
    ========================================================================== */
 (function () {
   "use strict";
@@ -12,55 +11,36 @@
     `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}${h ? `&h=${h}` : ""}&q=70`;
 
   const CLINIC = {
-    name: "MA Dental",
-    fullName: "MA Dental Care",
-    tagline: "Transforming smiles, ensuring oral health.",
-    phone: "+91 85890 40202",
-    phoneHref: "tel:+918589040202",
-    // TODO: confirm with client — their site lists no WhatsApp number; using the Mukkam phone line.
-    whatsapp: "https://wa.me/918589040202?text=Hi%2C%20I%27d%20like%20to%20book%20an%20appointment%20at%20MA%20Dental%20Care.",
-    email: "info@madentalcare.in",
-    careersEmail: "madentalcare@gmail.com",
+    name: "Aurea",
+    fullName: "Aurea Dental Studio",
+    tagline: "Premium dental care, designed around you.",
+    phone: "+91 98765 43210",
+    phoneHref: "tel:+919876543210",
+    whatsapp: "https://wa.me/919876543210?text=Hi%2C%20I%27d%20like%20to%20book%20an%20appointment.",
+    email: "hello@aureadental.com",
     address: {
-      line1: "Near Mukkam Bridge, Areacode Road",
-      line2: "Mukkam, Calicut, Kerala",
-      full: "Near Mukkam Bridge, Areacode Road, Mukkam, Calicut, Kerala",
+      line1: "Level 2, 48 Park Avenue",
+      line2: "Indiranagar, Bengaluru 560038",
+      full: "Level 2, 48 Park Avenue, Indiranagar, Bengaluru 560038",
     },
-    // Second branch.
-    branches: [
-      {
-        name: "Mukkam",
-        address: "Near Mukkam Bridge, Areacode Road, Mukkam",
-        phone: "+91 85890 40202",
-        phoneHref: "tel:+918589040202",
-        directions: "https://www.google.com/maps/dir/?api=1&destination=MA%20Dental%20Care%2C%20Areacode%20Road%2C%20Mukkam",
-      },
-      {
-        name: "Mavoor",
-        address: "Near Mavoor Bus Stand, Mavoor, Calicut",
-        phone: "+91 9747 730 403",
-        phoneHref: "tel:+919747730403",
-        directions: "https://www.google.com/maps/dir/?api=1&destination=Near%20Mavoor%20Bus%20Stand%2C%20Mavoor%2C%20Calicut",
-      },
-    ],
-    // TODO: confirm with client — opening hours are not listed on their current site.
+    mapsQuery: "Indiranagar, Bengaluru",
     hours: [
-      { days: "Mon – Sat", time: "Call to confirm" },
-      { days: "Sunday", time: "Call to confirm" },
+      { days: "Mon – Fri", time: "9:00 AM – 8:00 PM" },
+      { days: "Saturday", time: "9:00 AM – 5:00 PM" },
+      { days: "Sunday", time: "Emergencies only" },
     ],
-    satisfiedClients: "3,400+",
-    dentists: 10,
+    rating: 4.9,
+    reviewCount: "1,200+",
+    years: 15,
+    patients: "18,000+",
     currency: "₹",
-    bookingRefPrefix: "MAD",
+    bookingRefPrefix: "AUR",
   };
-  CLINIC.directions = CLINIC.branches[0].directions;
-  // Exact Google Maps listing for "MA Dental Care", Mukkam (from the client's site).
-  CLINIC.mapEmbed = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3912.207229406591!2d75.99385061129178!3d11.319558548893006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba6422aa3c4c4d7%3A0x977b52fe27d7e5fa!2sMA%20Dental%20Care!5e0!3m2!1sen!2sin!4v1701631233564!5m2!1sen!2sin";
+  CLINIC.directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(CLINIC.address.full)}`;
+  CLINIC.mapEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(CLINIC.mapsQuery)}&z=15&output=embed`;
 
-  // Client has no clinic/treatment photography yet; Unsplash images are kept as stand-ins.
-  // TODO: confirm with client — replace with real clinic photos.
   const IMAGES = {
-    hero: "assets/img/dr-ahammed-jamal-portrait.jpg",
+    hero: img("1629909613654-28e377c37b09", 1100, 1300),
     treatment: img("1588776814546-daab30f310ce", 1000, 1150),
     scan3d: img("1600170311833-c2cf5280ce49", 1000, 800),
     xray: img("1588776814546-1ffcf47267a5", 800, 700),
@@ -75,234 +55,232 @@
     mirror: img("1606265752439-1f18756aa5fc", 900, 700),
   };
 
-  /* ---------------------------------------------------------------- Services
-     Departments as listed on madentalcare.in. Treatment descriptions are general
-     patient education. Prices are not published by the client, so `price` is null
-     ("Price on consultation").
-     TODO: confirm with client — visit durations (used by the booking calendar) and prices. */
+  /* ---------------------------------------------------------------- Services */
   const SERVICES = [
     {
-      id: "general",
-      name: "General Dentistry",
+      id: "checkup",
+      name: "General Checkups",
       icon: "stethoscope",
-      short: "Checkups, teeth cleaning and fillings for everyday oral health.",
-      duration: 30,
-      price: null,
+      short: "Thorough exams, gentle cleaning and early detection.",
+      duration: 45,
+      price: 999,
       image: IMAGES.mirror,
-      lead: "Routine checkups, professional teeth cleaning and fillings that keep your smile healthy.",
+      lead: "A calm, thorough check-in for your teeth and gums, with a gentle clean and a clear plan.",
       involves:
-        "Your dentist examines your teeth, gums and bite, cleans away plaque and tartar, and treats small problems like cavities before they grow. You leave with a clear picture of your oral health and what, if anything, needs attention.",
+        "We start with a conversation, not a drill. Your dentist examines your teeth, gums and bite, takes low-dose digital X-rays if needed, and gently cleans away plaque and tartar. You leave with a simple summary of your oral health and what, if anything, needs attention.",
       benefits: [
-        ["shield-check", "Catch problems early", "Small issues are simpler to treat when found early."],
-        ["toothbrush-sparkles", "Professional cleaning", "Removes the plaque and tartar that brushing misses."],
-        ["clipboard-list", "A clear care plan", "Findings and next steps explained in plain language."],
-        ["heart-handshake", "Care for the whole family", "Routine dental care for patients of all ages."],
+        ["shield-check", "Catch problems early", "Small issues are simpler, faster and cheaper to fix."],
+        ["toothbrush-sparkles", "Fresher, cleaner smile", "Professional cleaning removes what brushing misses."],
+        ["scan-line", "Low-dose digital X-rays", "Up to 90% less radiation than film."],
+        ["clipboard-list", "A clear care plan", "No jargon. Just what you need and why."],
       ],
       steps: [
-        ["Consultation", "We listen to your concerns and review your history."],
-        ["Examination", "A full check of your teeth, gums and bite."],
-        ["Cleaning", "Scaling and polishing to remove plaque and tartar."],
-        ["Your plan", "We explain findings and any treatment you need."],
+        ["Welcome & history", "We review your health history and any concerns."],
+        ["Exam & imaging", "A full check of teeth, gums and bite, with X-rays if needed."],
+        ["Gentle cleaning", "Scaling and polishing with ultrasonic tools."],
+        ["Your plan", "We explain findings and next steps, in plain language."],
       ],
       faqs: [
-        ["How often should I have a checkup?", "Most people benefit from a checkup and cleaning every six months. Your dentist may suggest a different interval based on your oral health."],
-        ["Does teeth cleaning hurt?", "Most patients find it comfortable. Let your dentist know if any area feels sensitive."],
+        ["How often should I come in?", "Every six months works for most people. If you have gum concerns, we may suggest every three to four months."],
+        ["Does cleaning hurt?", "Most patients find it comfortable. We use gentle ultrasonic tools and can numb sensitive areas on request."],
       ],
     },
     {
-      id: "cosmetic",
-      name: "Cosmetic Dentistry",
+      id: "whitening",
+      name: "Teeth Whitening",
       icon: "sparkles",
-      short: "Teeth whitening and smile enhancements for a confident smile.",
-      duration: 45,
-      price: null,
+      short: "Brighter, even shades in a single visit.",
+      duration: 75,
+      price: 14999,
       image: IMAGES.smileClose,
-      lead: "Treatments that improve the colour, shape and overall look of your smile.",
+      lead: "Up to eight shades brighter in about an hour, with care for sensitive teeth.",
       involves:
-        "Cosmetic dentistry focuses on how your smile looks. Depending on your goals, your dentist may recommend teeth whitening, tooth-coloured restorations or other enhancements, planned around your natural features.",
+        "We protect your gums, apply a professional whitening gel and activate it with a cool LED light in short cycles. Your shade is measured before and after so you can see the difference. A take-home touch-up kit keeps results lasting.",
       benefits: [
-        ["sparkles", "A brighter smile", "Teeth whitening lifts stains and discolouration."],
-        ["face-slightly-smiling", "Natural-looking results", "Treatment planned around your face and features."],
-        ["wand-sparkles", "Personalised approach", "Options chosen to suit your goals."],
-        ["heart", "Smile with confidence", "Feel good about your smile again."],
+        ["sparkles", "Visible results, fast", "Most patients go several shades lighter in one visit."],
+        ["shield-check", "Enamel-safe formula", "Clinically tested gels with desensitising care."],
+        ["sun", "Even, natural tone", "Shade-matched so it looks like you, only brighter."],
+        ["timer", "Long-lasting", "Touch-up kit included to maintain your shade."],
       ],
       steps: [
-        ["Consultation", "We discuss what you'd like to change."],
-        ["Assessment", "Your dentist checks teeth and gums are healthy first."],
-        ["Treatment", "Your chosen cosmetic treatment is carried out."],
-        ["Aftercare", "Simple tips to keep your results looking their best."],
+        ["Shade check", "We record your starting shade and check for sensitivity."],
+        ["Protection", "A barrier shields your gums and lips."],
+        ["Whitening cycles", "Gel is applied and activated in three short rounds."],
+        ["Aftercare", "You get a touch-up kit and simple care tips."],
       ],
       faqs: [
-        ["Is teeth whitening safe?", "When done under a dentist's supervision, whitening is a safe way to brighten teeth. Your dentist will check your teeth and gums first."],
-        ["Which cosmetic treatment is right for me?", "It depends on your teeth and your goals. Your dentist will explain the options at your consultation."],
+        ["Will my teeth feel sensitive?", "Some mild sensitivity can occur for 24–48 hours. We use desensitising gel to keep you comfortable."],
+        ["How long do results last?", "Typically 12–24 months, longer with the touch-up kit and good habits."],
       ],
     },
     {
-      id: "orthodontics",
-      name: "Orthodontics",
-      icon: "layers",
-      short: "Straighten teeth and correct your bite with braces or aligners.",
-      duration: 45,
-      price: null,
-      image: IMAGES.aligner,
-      lead: "Straighter teeth and a healthier bite, for children, teens and adults.",
-      involves:
-        "Orthodontic treatment gently moves teeth into better positions over time. Your dentist assesses your teeth and bite and recommends the right appliance for you, with regular reviews to track progress.",
-      benefits: [
-        ["smile", "Straighter smile", "Aligned teeth look great and are easier to clean."],
-        ["shield", "Healthier bite", "Correcting the bite can reduce uneven wear."],
-        ["calendar-check", "Planned progress", "Regular reviews keep treatment on track."],
-        ["users", "For all ages", "Treatment options for children and adults."],
-      ],
-      steps: [
-        ["Assessment", "We examine your teeth, jaw and bite."],
-        ["Treatment plan", "Your options are explained, with expected timelines."],
-        ["Active treatment", "Braces or aligners gradually move your teeth."],
-        ["Retention", "Retainers help keep your new smile in place."],
-      ],
-      faqs: [
-        ["How long does orthodontic treatment take?", "It varies from person to person. Your dentist will give you an estimate after your assessment."],
-        ["Am I too old for braces?", "No. Adults can benefit from orthodontic treatment too."],
-      ],
-    },
-    {
-      id: "oral-surgery",
-      name: "Oral Surgery",
-      icon: "syringe",
-      short: "Extractions, wisdom teeth and surgical procedures, with care.",
-      duration: 60,
-      price: null,
-      image: IMAGES.xray,
-      lead: "Surgical dental care, including tooth extractions and wisdom tooth removal.",
-      involves:
-        "Oral surgery covers procedures such as removing damaged or impacted teeth, including wisdom teeth. Your dentist explains each step beforehand and uses local anaesthesia to keep you comfortable.",
-      benefits: [
-        ["heart-pulse", "Relief from pain", "Treats the source of pain and infection."],
-        ["clipboard-list", "Explained in advance", "You know what to expect before treatment."],
-        ["shield-check", "Comfort first", "Local anaesthesia for a comfortable procedure."],
-        ["calendar-check", "Aftercare support", "Clear instructions for a smooth recovery."],
-      ],
-      steps: [
-        ["Diagnosis", "Examination and X-rays to plan treatment."],
-        ["Preparation", "Local anaesthesia to keep you comfortable."],
-        ["Procedure", "The tooth or tissue is treated with care."],
-        ["Recovery", "Aftercare advice and a follow-up if needed."],
-      ],
-      faqs: [
-        ["Do wisdom teeth always need removal?", "Not always. Your dentist will advise removal if a wisdom tooth is causing pain, infection or other problems."],
-        ["How long is recovery?", "It depends on the procedure. Your dentist will give you aftercare instructions and tell you what to expect."],
-      ],
-    },
-    {
-      id: "pediatric",
-      name: "Pediatric Dentistry",
-      icon: "baby",
-      short: "Gentle dental care that helps children build healthy habits.",
-      duration: 30,
-      price: null,
-      image: IMAGES.toothbrush,
-      lead: "Kind, patient dental care that helps children feel at ease.",
-      involves:
-        "Children's dental visits focus on gentle checkups, cleaning and preventive care, with simple explanations so kids know what's happening. We also share tips to help parents look after their child's teeth at home.",
-      benefits: [
-        ["face-slightly-smiling", "Calm, friendly visits", "We go at your child's pace."],
-        ["shield", "Preventive care", "Protecting young teeth from decay."],
-        ["graduation-cap", "Healthy habits", "Brushing tips for children and parents."],
-        ["heart-handshake", "Parents welcome", "Stay with your child during the visit."],
-      ],
-      steps: [
-        ["Meet & greet", "A relaxed introduction to the chair and tools."],
-        ["Gentle check", "A look at teeth, gums and development."],
-        ["Clean & protect", "Cleaning and preventive care if needed."],
-        ["Home care", "Simple tips for brushing and diet."],
-      ],
-      faqs: [
-        ["When should my child first visit?", "Around their first birthday, or when the first tooth appears."],
-        ["Can I stay in the room?", "Yes. Many children feel calmer with a parent nearby."],
-      ],
-    },
-    {
-      id: "periodontics",
-      name: "Periodontics",
-      icon: "shield-plus",
-      short: "Treatment for gum disease, bleeding gums and gum health.",
-      duration: 45,
-      price: null,
-      image: IMAGES.chair,
-      lead: "Healthy gums are the foundation of a healthy smile.",
-      involves:
-        "Periodontal care treats gum problems such as bleeding, swelling and gum disease. Treatment usually begins with a thorough cleaning below the gum line, followed by a plan to keep your gums healthy.",
-      benefits: [
-        ["shield-check", "Protects your teeth", "Healthy gums help keep teeth secure."],
-        ["droplet", "Stops bleeding gums", "Treats the cause of gum inflammation."],
-        ["wind", "Fresher breath", "Removes bacteria that cause bad breath."],
-        ["calendar-check", "Ongoing care", "Regular reviews to maintain gum health."],
-      ],
-      steps: [
-        ["Gum assessment", "We check your gums for signs of disease."],
-        ["Deep cleaning", "Plaque and tartar removed from below the gum line."],
-        ["Treatment", "Further care if needed, explained clearly."],
-        ["Maintenance", "Regular cleanings to keep gums healthy."],
-      ],
-      faqs: [
-        ["Are bleeding gums serious?", "Bleeding gums are often an early sign of gum disease. It's best to have them checked early, when treatment is simplest."],
-        ["Can gum disease be treated?", "Yes. Early gum disease can usually be managed with professional cleaning and good home care."],
-      ],
-    },
-    {
-      id: "prosthodontics",
-      name: "Prosthodontics",
-      icon: "crown",
-      short: "Crowns, bridges, dentures and implants to restore your smile.",
-      duration: 60,
-      price: null,
+      id: "implants",
+      name: "Dental Implants",
+      icon: "drill",
+      short: "Permanent, natural-looking tooth replacement.",
+      duration: 90,
+      price: 35000,
       image: IMAGES.implant,
-      lead: "Restore missing or damaged teeth with crowns, bridges, dentures and implants.",
+      lead: "A permanent replacement that looks, feels and works like a natural tooth.",
       involves:
-        "Prosthodontics replaces or repairs teeth so you can eat, speak and smile comfortably. Your dentist will recommend the right option for you, whether that's a dental crown, a bridge, dentures or a dental implant.",
+        "An implant is a small titanium post placed in the jaw, topped with a custom crown. We plan every implant with 3D imaging, so placement is precise and recovery is quicker. Most patients are surprised by how comfortable it is.",
       benefits: [
-        ["badge-check", "Restores function", "Chew and speak with confidence again."],
-        ["face-slightly-smiling", "Natural appearance", "Restorations matched to your smile."],
-        ["layers", "Range of options", "Crowns, bridges, dentures and implants."],
-        ["shield", "Protects your teeth", "Crowns strengthen weakened teeth."],
+        ["badge-check", "Built to last", "With good care, implants can last a lifetime."],
+        ["scan-line", "3D-guided placement", "Precise planning for a faster, gentler procedure."],
+        ["face-slightly-smiling", "Natural look and feel", "Crowns are colour-matched to your smile."],
+        ["shield", "Protects your jawbone", "Implants help prevent bone loss after a missing tooth."],
       ],
       steps: [
-        ["Consultation", "We assess your teeth and discuss options."],
-        ["Planning", "The right restoration is chosen with you."],
-        ["Preparation", "Teeth are prepared and impressions taken."],
-        ["Fitting", "Your restoration is fitted and adjusted."],
+        ["3D consultation", "A CBCT scan maps your jaw for exact planning."],
+        ["Implant placement", "A short, numbed procedure, often under an hour."],
+        ["Healing", "The implant bonds with bone over 8–12 weeks."],
+        ["Final crown", "Your custom crown is fitted and adjusted."],
       ],
       faqs: [
-        ["What is the difference between a crown and a bridge?", "A crown covers and strengthens a single tooth. A bridge replaces one or more missing teeth by anchoring to the teeth beside the gap."],
-        ["Am I suitable for dental implants?", "Your dentist will assess your oral health to advise whether an implant is right for you."],
+        ["Is the procedure painful?", "It's done under local anaesthetic. Most people describe mild soreness for a day or two, managed with regular painkillers."],
+        ["Am I a candidate?", "Most healthy adults are. Your 3D consultation tells us exactly what's possible."],
+      ],
+    },
+    {
+      id: "aligners",
+      name: "Invisalign / Clear Aligners",
+      icon: "layers",
+      short: "Straighter teeth with nearly invisible aligners.",
+      duration: 60,
+      price: 120000,
+      image: IMAGES.aligner,
+      lead: "Straighten your smile discreetly, with removable aligners planned digitally.",
+      involves:
+        "We scan your teeth in 3D (no messy moulds) and show you a preview of your future smile. You then wear a series of clear aligners, switching every one to two weeks, with quick check-ins along the way.",
+      benefits: [
+        ["eye-off", "Nearly invisible", "Most people won't notice you're wearing them."],
+        ["scan-face", "See your result first", "A digital preview before you commit."],
+        ["coffee", "Eat what you like", "Remove aligners for meals and brushing."],
+        ["calendar-check", "Fewer visits", "Quick check-ins every 6–8 weeks."],
+      ],
+      steps: [
+        ["3D scan", "A quick intraoral scan replaces impressions."],
+        ["Smile preview", "See your projected result before starting."],
+        ["Aligner series", "Wear each set 20–22 hours a day."],
+        ["Retain", "Retainers keep your new smile in place."],
+      ],
+      faqs: [
+        ["How long does treatment take?", "Mild cases can take 4–6 months. Most complete in 12–18 months."],
+        ["Do aligners hurt?", "You may feel gentle pressure for a day or two with each new set. That means they're working."],
       ],
     },
     {
       id: "root-canal",
       name: "Root Canal Treatment",
       icon: "heart-pulse",
-      short: "Relieve tooth pain and save your natural tooth.",
-      duration: 60,
-      price: null,
-      image: IMAGES.scanScreen,
-      lead: "Relieve pain from an infected tooth and keep your natural tooth.",
+      short: "Pain relief that saves your natural tooth.",
+      duration: 75,
+      price: 6500,
+      image: IMAGES.xray,
+      lead: "Modern root canal care is calm, precise and usually done in a single visit.",
       involves:
-        "When the inside of a tooth becomes infected, root canal treatment cleans, disinfects and seals it. It relieves pain and saves the tooth. Your dentist will advise whether a crown is needed afterwards.",
+        "When the inside of a tooth is infected, we gently clean it, disinfect it and seal it. Using rotary tools and magnification, the treatment feels much like a filling. It relieves pain and saves the tooth.",
       benefits: [
-        ["heart-pulse", "Pain relief", "Removes the source of infection and pain."],
+        ["heart-pulse", "Fast pain relief", "Removes the source of infection and pain."],
         ["shield-check", "Saves your tooth", "Keeps your natural tooth in place."],
-        ["clipboard-list", "Clear explanation", "Every step explained before treatment."],
-        ["crown", "Restored strength", "A filling or crown protects the treated tooth."],
+        ["microscope", "Precision tools", "Magnification and rotary instruments for accuracy."],
+        ["timer", "Often single-visit", "Most treatments are completed in one appointment."],
       ],
       steps: [
-        ["Diagnosis", "Examination and X-rays confirm the cause."],
-        ["Numbing", "Local anaesthetic keeps you comfortable."],
+        ["Diagnosis", "X-rays confirm the cause and extent."],
+        ["Numbing", "Local anaesthetic so you feel comfortable."],
         ["Clean & seal", "The canal is cleaned, shaped and sealed."],
         ["Restore", "A filling or crown protects the tooth."],
       ],
       faqs: [
-        ["Is a root canal painful?", "With local anaesthesia, most patients find it similar to having a filling. It's the infection that causes pain, and treatment relieves it."],
-        ["Will I need a crown?", "Often, especially for back teeth. Your dentist will advise based on your tooth."],
+        ["Is a root canal painful?", "With modern anaesthesia, it feels similar to having a filling. It's the infection that hurts, and treatment relieves it."],
+        ["Will I need a crown?", "Back teeth usually benefit from a crown for strength. We'll advise based on your tooth."],
+      ],
+    },
+    {
+      id: "smile-makeover",
+      name: "Smile Makeover",
+      icon: "wand-sparkles",
+      short: "A complete, personalised redesign of your smile.",
+      duration: 60,
+      price: 1500,
+      priceLabel: "Consultation",
+      image: IMAGES.smileClose,
+      lead: "A tailored plan that combines treatments to create the smile you've always wanted.",
+      involves:
+        "We listen first. Then we photograph and scan your smile, and design your new look digitally. Your plan may combine whitening, veneers, aligners or bonding, all staged to fit your timeline and budget.",
+      benefits: [
+        ["scan-face", "Digital smile design", "Preview your new smile before treatment."],
+        ["wand-sparkles", "Fully personalised", "Built around your face, goals and lifestyle."],
+        ["wallet", "Flexible staging", "Spread treatment across visits and budgets."],
+        ["users", "One coordinated team", "Specialists working together on your plan."],
+      ],
+      steps: [
+        ["Consultation", "We talk through what you'd love to change."],
+        ["Photos & scan", "Detailed records for digital design."],
+        ["Smile preview", "See and refine your new smile on screen."],
+        ["Treatment", "Your plan is carried out in comfortable stages."],
+      ],
+      faqs: [
+        ["What does a makeover include?", "It's unique to you. Common elements are whitening, veneers, aligners and gum contouring."],
+        ["Is the consultation fee adjusted?", "Yes. The consultation fee is credited toward your treatment if you go ahead."],
+      ],
+    },
+    {
+      id: "pediatric",
+      name: "Pediatric Dentistry",
+      icon: "baby",
+      short: "Gentle, fun visits that build healthy habits.",
+      duration: 30,
+      price: 799,
+      image: IMAGES.toothbrush,
+      lead: "Kind, patient care that helps children feel at ease with the dentist.",
+      involves:
+        "Our child-friendly team uses simple words, gentle techniques and plenty of encouragement. We check growth and development, clean, and apply protective treatments like fluoride and sealants.",
+      benefits: [
+        ["face-slightly-smiling", "Calm, friendly visits", "We go at your child's pace."],
+        ["shield", "Preventive care", "Fluoride and sealants to protect young teeth."],
+        ["graduation-cap", "Healthy habits", "Brushing tips kids actually remember."],
+        ["heart-handshake", "Parents welcome", "Stay with your child throughout the visit."],
+      ],
+      steps: [
+        ["Meet & greet", "A relaxed introduction to the chair and tools."],
+        ["Gentle check", "A look at teeth, gums and development."],
+        ["Clean & protect", "Cleaning, fluoride and sealants if needed."],
+        ["Reward", "Tips for home and a small reward for bravery."],
+      ],
+      faqs: [
+        ["When should my child first visit?", "By their first birthday, or when the first tooth appears."],
+        ["Can I stay in the room?", "Of course. Many children feel calmer with a parent nearby."],
+      ],
+    },
+    {
+      id: "veneers",
+      name: "Cosmetic Veneers",
+      icon: "gem",
+      short: "Thin porcelain shells for a flawless finish.",
+      duration: 90,
+      price: 12000,
+      priceLabel: "per tooth",
+      image: IMAGES.chair,
+      lead: "Ultra-thin porcelain veneers that correct shape, shade and spacing beautifully.",
+      involves:
+        "Veneers are thin, custom-made shells bonded to the front of your teeth. We design them digitally, let you test-drive the shape with a mock-up, and then fit your final veneers for a natural, radiant result.",
+      benefits: [
+        ["gem", "Natural translucency", "Porcelain reflects light like real enamel."],
+        ["shield-check", "Stain-resistant", "Stays bright for years with simple care."],
+        ["scan-face", "Try before you commit", "A mock-up lets you preview the look."],
+        ["timer", "Fast transformation", "Typically complete in two to three visits."],
+      ],
+      steps: [
+        ["Design", "Photos and scans for a digital smile design."],
+        ["Mock-up", "Try your new shape before anything is final."],
+        ["Preparation", "Minimal, conservative preparation of the teeth."],
+        ["Bonding", "Final veneers fitted and polished."],
+      ],
+      faqs: [
+        ["Do veneers damage teeth?", "We use minimal-prep techniques that preserve as much natural tooth as possible."],
+        ["How long do veneers last?", "Porcelain veneers typically last 10–15 years or more with good care."],
       ],
     },
   ];
@@ -314,109 +292,133 @@
     icon: "circle-question-mark",
     short: "Tell us your concern and we'll guide you.",
     duration: 30,
-    price: null,
+    price: 500,
   };
 
-  /* ----------------------------------------------------------------- Doctors
-     Names and roles from madentalcare.in.
-     TODO: confirm with client — qualifications, years of experience, languages,
-     specialisations and bios are not on their site, so they are left empty here. */
-  const ALL = SERVICES.map((s) => s.id);
-  const doctor = (id, name, role, photo, short) => ({
-    id,
-    name,
-    short, // used on "Book with …" buttons when the first two words don't read well
-
-    role,
-    years: null,
-    quals: [],
-    specialties: [],
-    services: ALL,
-    languages: [],
-    photo: `assets/img/doctors/${photo}`,
-    bio: `${name} is a ${role} at MA Dental Care, part of the team that blends expertise with compassion to give every patient personalised care.`,
-  });
+  /* ----------------------------------------------------------------- Doctors */
   const DOCTORS = [
-    doctor("ma-ahammed-jamal", "Dr. MA. Ahammed Jamal", "Chief Dental Surgeon", "dr-ma-ahammed-jamal.jpg", "Dr. Ahammed Jamal"),
-    doctor("shabna-jamal", "Dr. Shabna Jamal", "Chief Dental Surgeon", "dr-shabna-jamal.jpg"),
-    doctor("nabeel-marakkar", "Dr. Nabeel Marakkar", "Dental Surgeon", "dr-nabeel-marakkar.jpg"),
-    doctor("shadiya-mk", "Dr. Shadiya MK", "Dental Surgeon", "dr-shadiya-mk.jpg"),
-    doctor("rizwan-naha", "Dr. Rizwan Naha", "Dental Surgeon", "dr-rizwan-naha.jpg"),
-    doctor("dilna", "Dr. Dilna", "Dental Surgeon", "dr-dilna.jpg"),
-    doctor("chanchalesh", "Dr. Chanchalesh", "Dental Surgeon", "dr-chanchalesh.jpg"),
-    doctor("shazeeha-sidhiq", "Dr. Shazeeha Sidhiq", "Dental Surgeon", "dr-shazeeha-sidhiq.jpg"),
-    doctor("alka-dinesh", "Dr. Alka Dinesh", "Dental Surgeon", "dr-alka-dinesh.jpg"),
-    doctor("jithin-joseph", "Dr. Jithin Joseph", "Dental Surgeon", "dr-jithin-joseph.jpg"),
+    {
+      id: "meera-iyer",
+      name: "Dr. Meera Iyer",
+      role: "Cosmetic & Aesthetic Dentist",
+      years: 14,
+      quals: ["BDS", "MDS (Prosthodontics)", "Fellowship, Aesthetic Dentistry"],
+      specialties: ["Veneers", "Smile makeovers", "Teeth whitening"],
+      services: ["whitening", "smile-makeover", "veneers", "checkup"],
+      languages: ["English", "Hindi", "Tamil"],
+      photo: img("1559839734-2b71ea197ec2", 700, 820),
+      bio: "Dr. Meera founded Aurea with one idea: dental care should feel as good as it looks. She is known for natural, understated smile design and an unhurried chairside manner. Outside the clinic she lectures on digital smile design.",
+    },
+    {
+      id: "arjun-menon",
+      name: "Dr. Arjun Menon",
+      role: "Implantologist & Oral Surgeon",
+      years: 12,
+      quals: ["BDS", "MDS (Oral & Maxillofacial Surgery)", "ICOI Diplomate"],
+      specialties: ["Dental implants", "Full-arch restoration", "Wisdom teeth"],
+      services: ["implants", "checkup"],
+      languages: ["English", "Malayalam", "Hindi"],
+      photo: img("1612349317150-e413f6a5b16d", 700, 820),
+      bio: "Dr. Arjun has placed over 3,000 implants using guided 3D surgery. Patients appreciate how clearly he explains each step, and how quickly they're back to normal.",
+    },
+    {
+      id: "sara-thomas",
+      name: "Dr. Sara Thomas",
+      role: "Orthodontist & Pediatric Dentist",
+      years: 10,
+      quals: ["BDS", "MDS (Orthodontics)", "Certified Clear Aligner Provider"],
+      specialties: ["Clear aligners", "Braces", "Children's dentistry"],
+      services: ["aligners", "pediatric", "checkup"],
+      languages: ["English", "Malayalam", "Kannada"],
+      photo: img("1594824476967-48c8b964273f", 700, 820),
+      bio: "Dr. Sara brings warmth and patience to every visit, whether she's planning aligners for an adult or meeting a nervous five-year-old for the first time.",
+    },
+    {
+      id: "rahul-varma",
+      name: "Dr. Rahul Varma",
+      role: "Endodontist",
+      years: 9,
+      quals: ["BDS", "MDS (Conservative Dentistry & Endodontics)"],
+      specialties: ["Root canal treatment", "Microscopic dentistry", "Emergency care"],
+      services: ["root-canal", "checkup"],
+      languages: ["English", "Hindi", "Telugu"],
+      photo: img("1622253692010-333f2da6031d", 700, 820),
+      bio: "Dr. Rahul specialises in saving natural teeth. Using microscope-guided techniques, he makes root canal treatment calm, precise and usually single-visit.",
+    },
   ];
 
-  /* ---------------------------------------------------------------- Pricing
-     TODO: confirm with client — no packages or prices are published. These are
-     placeholder package outlines with "price on consultation". */
+  /* ---------------------------------------------------------------- Pricing */
   const PRICING = [
     {
-      id: "checkup",
-      name: "Checkup & Cleaning",
-      service: "general",
-      price: null,
-      blurb: "Your routine visit for healthy teeth and gums.",
-      features: ["Complete dental examination", "Professional teeth cleaning", "Advice on home care", "Clear treatment plan if needed"],
+      id: "essential",
+      name: "Essential Checkup",
+      service: "checkup",
+      price: 999,
+      blurb: "Your complete six-monthly visit.",
+      features: ["Comprehensive dental exam", "Scaling & polishing", "Digital X-rays if needed", "Personalised care plan"],
     },
     {
-      id: "smile",
-      name: "Smile Consultation",
-      service: "cosmetic",
-      price: null,
+      id: "whitening",
+      name: "Whitening Package",
+      service: "whitening",
+      price: 14999,
       popular: true,
-      blurb: "Explore cosmetic options for your smile.",
-      features: ["One-to-one consultation", "Whitening and cosmetic options", "Personalised recommendations", "Estimate before treatment"],
+      blurb: "In-clinic whitening plus home care.",
+      features: ["Pre-whitening checkup & clean", "In-clinic LED whitening", "Take-home touch-up kit", "Free shade review at 3 months"],
     },
     {
-      id: "restore",
-      name: "Tooth Replacement Consultation",
-      service: "prosthodontics",
-      price: null,
-      blurb: "Options for missing or damaged teeth.",
-      features: ["Assessment of your teeth", "Crowns, bridges, dentures or implants", "Options explained clearly", "Estimate before treatment"],
+      id: "makeover",
+      name: "Smile Makeover Consultation",
+      service: "smile-makeover",
+      price: 1500,
+      blurb: "Design your new smile, digitally.",
+      features: ["60-minute specialist consultation", "3D scan & smile photography", "Digital smile preview", "Fee credited to treatment"],
     },
   ];
 
-  /* ------------------------------------------------------------ Testimonials
-     From madentalcare.in. Star ratings are not shown on the client's site. */
+  /* ------------------------------------------------------------ Testimonials */
+  const AVATAR = {
+    a: img("1544005313-94ddf0286df2", 120, 120),
+    b: img("1580489944761-15a19d654956", 120, 120),
+    c: img("1607990281513-2c110a25bd8c", 120, 120),
+    d: img("1537368910025-700350fe46c7", 120, 120),
+  };
   const TESTIMONIALS = [
-    { name: "Latheef KT", avatar: null, rating: null, treatment: "Mukkam, Calicut", doctor: null, quote: "MA Dental Care is the best and first destination for dental treatment. You get every level of treatment from skilled, experienced dentists, right in Mukkam city near the Koyilandy–Edavanna state highway. Choose first, get first-quality treatment." },
-    { name: "Bins Abraham", avatar: null, rating: null, treatment: "Thiruvambadi, Calicut", doctor: null, quote: "I am so grateful for the care I received at MA Dental Care. The entire team, from reception to dentists, are caring professionals who prioritise patient comfort. The clinic's modern facilities and advanced technology made my dental procedures smooth and efficient." },
-    { name: "Fathima Dilna", avatar: null, rating: null, treatment: "NIT, Calicut", doctor: null, quote: "MA Dental Care exceeded my expectations. The personalised approach to my dental needs made me feel valued as a patient. The results of my cosmetic procedure were transformative, and the dentists made sure I was informed and comfortable throughout." },
+    { name: "Priya S.", avatar: AVATAR.a, rating: 5, treatment: "Teeth Whitening", doctor: "meera-iyer", quote: "I've always been nervous at the dentist. This felt more like a spa. My teeth are noticeably brighter and there was zero sensitivity." },
+    { name: "Karthik R.", avatar: AVATAR.c, rating: 5, treatment: "Dental Implants", doctor: "arjun-menon", quote: "Dr. Arjun showed me the 3D plan before we started, so I knew exactly what would happen. Honestly easier than I expected." },
+    { name: "Ananya M.", avatar: AVATAR.b, rating: 5, treatment: "Clear Aligners", doctor: "sara-thomas", quote: "Booked online in under a minute. Eight months later, my smile is straight and nobody even noticed the aligners." },
+    { name: "Vikram P.", avatar: AVATAR.d, rating: 5, treatment: "Root Canal", doctor: "rahul-varma", quote: "Came in with terrible pain on a Saturday. Seen the same day, single visit, no pain at all. Can't recommend them enough." },
+    { name: "Neha K.", avatar: null, rating: 5, treatment: "Pediatric Dentistry", doctor: "sara-thomas", quote: "My six-year-old actually asked when we're going back. That says everything." },
+    { name: "Rohan D.", avatar: null, rating: 5, treatment: "Cosmetic Veneers", doctor: "meera-iyer", quote: "The mock-up let me try the shape first. The final veneers look completely natural. Worth every rupee." },
+    { name: "Fatima A.", avatar: null, rating: 5, treatment: "General Checkup", doctor: "rahul-varma", quote: "Clean, calm and on time. They explained everything without any upselling. Finally found my dentist." },
   ];
 
-  /* ------------------------------------------------------------------- FAQs
-     TODO: confirm with client — general answers; check payment, insurance and emergency policies. */
+  /* ------------------------------------------------------------------- FAQs */
   const FAQS = [
-    ["Which treatments do you offer?", "We offer general dentistry, cosmetic dentistry, orthodontics, oral surgery, pediatric dentistry, periodontics and prosthodontics, including root canal treatment, crowns, dentures, implants and teeth whitening."],
-    ["Where are your clinics?", "We have two clinics in Calicut: near Mukkam Bridge on Areacode Road, Mukkam, and near Mavoor Bus Stand, Mavoor."],
-    ["How much will my treatment cost?", "Costs depend on your needs. Your dentist will explain your options and the expected cost before any treatment begins."],
-    ["What happens at my first visit?", "Your dentist talks through your concerns, examines your teeth and gums, and explains a clear plan. There's no pressure to start treatment on the day."],
-    ["Do you handle dental emergencies?", "Yes. If you're in pain or need urgent care, call us on +91 85890 40202 (Mukkam) or +91 9747 730 403 (Mavoor)."],
-    ["How do I book an appointment?", "Book online in under a minute, or call either clinic. You can also reschedule or cancel online."],
+    ["Will my treatment be painful?", "We focus on comfort at every step: topical numbing before injections, gentle techniques, laser options and sedation for anxious patients. Most people tell us it was far easier than they expected."],
+    ["How much will my treatment cost?", "We share clear, itemised estimates before any treatment begins. Starting prices are listed on our site, and there are never surprise charges."],
+    ["Do you accept dental insurance?", "Yes. We work with most major insurers and can help with cashless claims or paperwork for reimbursement. Bring your policy details to your first visit."],
+    ["What happens at my first visit?", "A relaxed 45-minute appointment: a conversation about your goals, a full exam, digital X-rays if needed and a clear plan. No pressure to start treatment on the day."],
+    ["Do you handle dental emergencies?", "Yes. Call or WhatsApp us and we'll see you the same day wherever possible, including Sundays for urgent pain, swelling or injury."],
+    ["What payment options are available?", "We accept cards, UPI, net banking and cash. 0% EMI plans are available on treatments above ₹10,000 through our finance partners."],
+    ["Can I cancel or reschedule online?", "Yes. Use the link in your confirmation message or the patient portal. Cancellation is free up to 24 hours before your visit."],
   ];
 
-  /* -------------------------------------------------------- Before / after
-     TODO: confirm with client — illustrative stock images; replace with real patient cases (with consent). */
+  /* -------------------------------------------------------- Before / after */
   const CASES = [
-    { label: "Teeth Whitening", detail: "Cosmetic Dentistry", image: img("1606811971618-4486d14f3f99", 1200, 760), pos: "50% 55%" },
-    { label: "Orthodontics", detail: "Straighter teeth", image: img("1609840114035-3c981b782dfe", 1200, 760), pos: "50% 60%" },
-    { label: "Smile Enhancement", detail: "Cosmetic Dentistry", image: img("1606811971618-4486d14f3f99", 1200, 760), pos: "35% 45%" },
-    { label: "Prosthodontics", detail: "Restored teeth", image: img("1609840114035-3c981b782dfe", 1200, 760), pos: "60% 40%" },
+    { label: "Teeth Whitening", detail: "1 visit · 7 shades brighter", image: img("1606811971618-4486d14f3f99", 1200, 760), pos: "50% 55%" },
+    { label: "Clear Aligners", detail: "11 months · 24 aligners", image: img("1609840114035-3c981b782dfe", 1200, 760), pos: "50% 60%" },
+    { label: "Smile Makeover", detail: "3 visits · veneers + whitening", image: img("1606811971618-4486d14f3f99", 1200, 760), pos: "35% 45%" },
+    { label: "Cosmetic Bonding", detail: "1 visit · chip repair", image: img("1609840114035-3c981b782dfe", 1200, 760), pos: "60% 40%" },
   ];
 
-  // Departments marquee (trust strip).
   const LOGOS = [
-    ["stethoscope", "General Dentistry"],
-    ["sparkles", "Cosmetic Dentistry"],
-    ["layers", "Orthodontics"],
-    ["syringe", "Oral Surgery"],
-    ["baby", "Pediatric Dentistry"],
-    ["shield-plus", "Periodontics"],
-    ["crown", "Prosthodontics"],
+    ["shield-check", "ISO 9001:2015"],
+    ["badge-check", "Dental Council Certified"],
+    ["layers", "Clear Aligner Provider"],
+    ["heart-handshake", "HealthShield Insurance"],
+    ["umbrella", "MediCover Cashless"],
+    ["award", "Best Dental Studio 2025"],
   ];
 
   window.SITE = { CLINIC, IMAGES, SERVICES, CONSULT, DOCTORS, PRICING, TESTIMONIALS, FAQS, CASES, LOGOS, img };

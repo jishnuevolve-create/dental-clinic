@@ -11,9 +11,7 @@
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const esc = (s) =>
     String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const money = (n) => (n == null ? "On consultation" : CLINIC.currency + Number(n).toLocaleString("en-IN"));
-  // "From ₹X", or "Price on consultation" when the clinic hasn't published a price.
-  const fromPrice = (n, bold = true) => (n == null ? (bold ? "<b>Price on consultation</b>" : "Price on consultation") : `From ${bold ? `<b>${money(n)}</b>` : money(n)}`);
+  const money = (n) => CLINIC.currency + Number(n).toLocaleString("en-IN");
   const icon = (name, cls = "") => `<i data-lucide="${name}"${cls ? ` class="${cls}"` : ""} aria-hidden="true"></i>`;
   const stars = (n = 5) => `<span class="stars" role="img" aria-label="${n} out of 5 stars">${"★".repeat(n)}</span>`;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -35,7 +33,13 @@
     linkedin: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
   };
 
-  const LOGO = `<img class="logo__img" src="assets/img/ma-dental-care-logo.png" alt="${esc(CLINIC.fullName)}" width="600" height="127">`;
+  const LOGO = `
+    <span class="logo__mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#3B82F6"/><stop offset="1" stop-color="#2DD4BF"/></linearGradient></defs>
+      <rect width="32" height="32" rx="10" fill="url(#lg)"/>
+      <path d="M11.2 9.5c1.6 0 2.7.8 4.8.8s3.2-.8 4.8-.8c2.4 0 3.7 2 3.7 4.4 0 2.2-.8 3.6-1.4 5.6-.6 2.1-.9 4.5-2.4 4.5-1.7 0-1.6-4.3-4.7-4.3s-3 4.3-4.7 4.3c-1.5 0-1.8-2.4-2.4-4.5-.6-2-1.4-3.4-1.4-5.6 0-2.4 1.3-4.4 3.7-4.4z" fill="#fff"/></svg>
+    </span>
+    <span class="logo__text">${esc(CLINIC.name)}<span class="logo__sub">Dental Studio</span></span>`;
 
   /* ---------------------------------------------------------------- Header */
   const page = document.body.dataset.page || "";
@@ -143,8 +147,7 @@
         <div class="footer__grid">
           <div class="footer__brand">
             <a href="index.html" class="logo">${LOGO}</a>
-            <p>Transforming smiles, ensuring oral health. Expert, compassionate dental care for the whole family in Mukkam and Mavoor, Calicut.</p>
-            <!-- TODO: confirm with client — social media links (none are linked on their current site). -->
+            <p>Premium, patient-first dentistry. Cosmetic, restorative and general care with advanced technology and a calm, spa-like experience.</p>
             <div class="socials">
               <a href="#" aria-label="Instagram">${BRAND.instagram}</a>
               <a href="#" aria-label="Facebook">${BRAND.facebook}</a>
@@ -172,9 +175,8 @@
           <div class="footer__visit">
             <h3 class="footer__title">Visit us</h3>
             <address>
-              ${CLINIC.branches.map((b) => `
-              <a href="${b.directions}" target="_blank" rel="noopener">${icon("map-pin")}<span><b>${esc(b.name)}</b><br>${esc(b.address)}</span></a>
-              <a href="${b.phoneHref}">${icon("phone")}<span>${esc(b.phone)}</span></a>`).join("")}
+              <a href="${CLINIC.directions}" target="_blank" rel="noopener">${icon("map-pin")}<span>${esc(CLINIC.address.line1)}<br>${esc(CLINIC.address.line2)}</span></a>
+              <a href="${CLINIC.phoneHref}">${icon("phone")}<span>${esc(CLINIC.phone)}</span></a>
               <a href="mailto:${CLINIC.email}">${icon("mail")}<span>${esc(CLINIC.email)}</span></a>
               <a href="${CLINIC.whatsapp}" target="_blank" rel="noopener">${BRAND.whatsapp}<span>Chat on WhatsApp</span></a>
             </address>
@@ -313,7 +315,6 @@
   /* -------------------------------------------------------- Availability
      Deterministic mock. Replace BookingAPI methods with real API calls
      (same signatures, returning Promises) to connect a backend/calendar. */
-  // TODO: confirm with client — real working hours aren't published; these slots are placeholders.
   const SLOT_GROUPS = {
     Morning: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"],
     Afternoon: ["12:30", "13:00", "14:00", "14:30", "15:00", "15:30", "16:00"],
@@ -382,7 +383,7 @@
 
   // Local persistence for the demo patient portal.
   const Store = {
-    key: "madental.bookings",
+    key: "aurea.bookings",
     all() { try { return JSON.parse(localStorage.getItem(this.key)) || []; } catch { return []; } },
     save(list) { try { localStorage.setItem(this.key, JSON.stringify(list)); } catch { /* storage unavailable */ } },
     update(ref, patch) { const all = this.all(); const b = all.find((x) => x.ref === ref); if (b) Object.assign(b, patch); this.save(all); return b; },
@@ -401,7 +402,7 @@
 
   /* -------------------------------------------------------------- Boot */
   window.App = {
-    $, $$, esc, money, fromPrice, icon, stars, BRAND, bookUrl, findService, findDoctor, params, refreshIcons,
+    $, $$, esc, money, icon, stars, BRAND, bookUrl, findService, findDoctor, params, refreshIcons,
     initReveal, renderAccordion, initCompare, BookingAPI, Store, SLOT_GROUPS, ymd, parseYmd, fmtTime, fmtDate, relDay, reducedMotion, trapFocus,
   };
 

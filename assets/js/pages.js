@@ -5,7 +5,7 @@
   "use strict";
   const { CLINIC, SERVICES, DOCTORS, TESTIMONIALS, CASES, IMAGES } = window.SITE;
   const {
-    $, $$, esc, money, fromPrice, icon, stars, bookUrl, params, findService, findDoctor, refreshIcons,
+    $, $$, esc, money, icon, stars, bookUrl, params, findService, findDoctor, refreshIcons,
     renderAccordion, initCompare, BookingAPI, Store, ymd, parseYmd, fmtTime, fmtDate, relDay, initReveal, trapFocus,
   } = window.App;
 
@@ -34,7 +34,7 @@
     const host = $("#page");
     const s = findService(params.get("s"));
     if (!s || !s.steps) return notFound(host, "treatment", "index.html#services");
-    setMeta(`${s.name} · MA Dental Care, Mukkam`, `${s.lead} ${fromPrice(s.price, false)}. Book online at MA Dental Care.`);
+    setMeta(`${s.name} · Aurea Dental Studio`, `${s.lead} From ${money(s.price)}. Book online in under 60 seconds.`);
     const docs = DOCTORS.filter((d) => d.services.includes(s.id));
     const others = SERVICES.filter((x) => x.id !== s.id).slice(0, 4);
     const cs = CASES.find((c) => s.name.includes(c.label.split(" ")[0])) || CASES[0];
@@ -49,7 +49,7 @@
             <h1 class="h1" style="font-size:clamp(2.25rem,4.6vw,3.5rem)">${esc(s.lead)}</h1>
             <div class="facts">
               <span class="badge">${icon("clock")} ${s.duration} min visit</span>
-              <span class="badge badge--blue">${icon("tag")} ${fromPrice(s.price, false)}${s.priceLabel ? ` ${esc(s.priceLabel.toLowerCase())}` : ""}</span>
+              <span class="badge badge--blue">${icon("tag")} From ${money(s.price)}${s.priceLabel ? ` ${esc(s.priceLabel.toLowerCase())}` : ""}</span>
               <span class="badge badge--mint">${icon("heart-handshake")} Comfort-first care</span>
             </div>
             <div class="hero__ctas">
@@ -57,7 +57,7 @@
               <a class="btn btn--secondary btn--lg" href="#process">How it works</a>
             </div>
           </div>
-          <div class="frame"><img src="${s.image}" alt="${esc(s.name)} at MA Dental Care" width="900" height="700"></div>
+          <div class="frame"><img src="${s.image}" alt="${esc(s.name)} at Aurea Dental Studio" width="900" height="700"></div>
         </div>
       </section>
 
@@ -73,11 +73,11 @@
           </div>
           <aside class="sticky-card">
             <div class="card price-panel" data-reveal>
-              <div><span class="from">${s.price == null ? "Pricing" : "Starting from"}</span><div class="amt"${s.price == null ? ' style="font-size:28px"' : ""}>${money(s.price)}</div>${s.priceLabel ? `<span class="from">${esc(s.priceLabel)}</span>` : ""}</div>
+              <div><span class="from">Starting from</span><div class="amt">${money(s.price)}</div>${s.priceLabel ? `<span class="from">${esc(s.priceLabel)}</span>` : ""}</div>
               <div class="meta">
                 <div><span>Visit length</span><b>${s.duration} min</b></div>
-                <div><span>Estimate</span><b>Before treatment</b></div>
-                <div><span>Clinics</span><b>Mukkam &amp; Mavoor</b></div>
+                <div><span>EMI available</span><b>${s.price >= 10000 ? "Yes, 0%" : "Not needed"}</b></div>
+                <div><span>Insurance</span><b>Often covered</b></div>
               </div>
               <a class="btn btn--primary btn--block btn--lg" href="${bookUrl({ service: s.id })}">Book this treatment</a>
               <p class="center" style="font-size:13px">Final cost confirmed after your exam. No surprises.</p>
@@ -111,7 +111,7 @@
       ${docs.length ? `
       <section class="section section--white">
         <div class="container">
-          <div class="section-head"><span class="eyebrow" data-reveal>Your dentists</span><h2 class="h2" data-reveal>Who'll <em class="serif">look after you.</em></h2></div>
+          <div class="section-head"><span class="eyebrow" data-reveal>Your specialists</span><h2 class="h2" data-reveal>Who'll <em class="serif">look after you.</em></h2></div>
           <div class="doctors-grid">${docs.map(UI.doctorCard).join("")}</div>
         </div>
       </section>` : ""}
@@ -140,7 +140,7 @@
     const host = $("#page");
     const d = findDoctor(params.get("d"));
     if (!d) return notFound(host, "doctor", "index.html#doctors");
-    setMeta(`${d.name}, ${d.role} · MA Dental Care`, `${d.name}, ${d.role} at MA Dental Care, Mukkam. Book an appointment online.`);
+    setMeta(`${d.name}, ${d.role} · Aurea Dental Studio`, `${d.name}: ${d.role} with ${d.years} years of experience. ${d.quals.join(", ")}. Book online.`);
     const reviews = TESTIMONIALS.filter((t) => t.doctor === d.id);
     const svcs = d.services.map(findService).filter(Boolean);
 
@@ -164,13 +164,12 @@
               <span class="eyebrow">${esc(d.role)}</span>
               <h1 class="h1" style="font-size:clamp(2.25rem,4.6vw,3.5rem)">${esc(d.name)}</h1>
               <div class="facts">
-                ${d.years ? `<span class="badge">${icon("award")} ${d.years} years experience</span>` : ""}
-                ${d.languages.length ? `<span class="badge">${icon("languages")} ${d.languages.join(", ")}</span>` : ""}
-                <span class="badge">${icon("map-pin")} MA Dental Care</span>
-                ${reviews.length ? `<span class="badge">${stars(5)} ${reviews.length} patient ${reviews.length === 1 ? "story" : "stories"}</span>` : ""}
+                <span class="badge">${icon("award")} ${d.years} years experience</span>
+                <span class="badge">${icon("languages")} ${d.languages.join(", ")}</span>
+                ${reviews.length ? `<span class="badge">${stars(5)} ${reviews.length * 87}+ reviews</span>` : ""}
               </div>
               <p class="lead">${esc(d.bio)}</p>
-              <div class="hero__ctas"><a class="btn btn--primary btn--lg" href="${bookUrl({ doctor: d.id })}">Book with ${esc(d.short || d.name.split(" ").slice(0, 2).join(" "))} ${icon("arrow-right")}</a></div>
+              <div class="hero__ctas"><a class="btn btn--primary btn--lg" href="${bookUrl({ doctor: d.id })}">Book with ${esc(d.name.split(" ").slice(0, 2).join(" "))} ${icon("arrow-right")}</a></div>
             </div>
           </div>
         </div>
@@ -179,14 +178,14 @@
       <section class="section section--tight">
         <div class="container two-col">
           <div style="display:grid;gap:16px">
-            ${d.quals.length ? `<div class="card info-card" data-reveal>
+            <div class="card info-card" data-reveal>
               <h2 class="h3" style="margin-bottom:14px">Qualifications</h2>
               <ul class="list-check">${d.quals.map((q) => `<li>${icon("graduation-cap")}<span>${esc(q)}</span></li>`).join("")}</ul>
-            </div>` : ""}
+            </div>
             <div class="card info-card" data-reveal>
-              ${d.specialties.length ? `<h2 class="h3" style="margin-bottom:14px">Specialisations</h2>
+              <h2 class="h3" style="margin-bottom:14px">Specialisations</h2>
               <div class="row-gap">${d.specialties.map((x) => `<span class="badge badge--blue">${esc(x)}</span>`).join("")}</div>
-              <h3 class="h3 mt-24" style="font-size:16px;margin-bottom:12px">Treatments offered</h3>` : `<h2 class="h3" style="margin-bottom:14px">Treatments offered</h2>`}
+              <h3 class="h3 mt-24" style="font-size:16px;margin-bottom:12px">Treatments offered</h3>
               <div class="row-gap">${svcs.map((x) => `<a class="badge" href="service.html?s=${x.id}">${icon(x.icon)} ${esc(x.name)}</a>`).join("")}</div>
             </div>
             ${reviews.length ? `
